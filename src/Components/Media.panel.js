@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { connect, useDispatch } from "react-redux";
 
 import { MediaItemTypes } from '../types';
 import { mediaItemsList } from "../services/actions/mediaItemsAction";
-import { addCanvasItem } from "../services/actions/canvasItemsAction";
+import { addCanvasItem, selectedCanvasItem, updateCanvasItem } from "../services/actions/canvasItemsAction";
+import AppHelpers from '../tools/App-helpers';
 
-const Item = ({ char_id, img, name }) => {
+const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) => {
     const dispatch = useDispatch();
-    const [{ isDragging }, drag] = useDrag({
+    const [{ }, drag] = useDrag({
         item: { char_id, name, img, type: MediaItemTypes.BOX },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
@@ -21,19 +22,53 @@ const Item = ({ char_id, img, name }) => {
         }),
     });
 
+    const changeItemSelectHandler = () => {
+     if(isSelectCanvasItem) !!onSelect && onSelect({char_id, img, name});
+    }
+
+    console.log("isSelectCanvasItem", isSelectCanvasItem)
+
     return (<div ref={drag}>
-			<div className="media-card" style={{backgroundImage: `url(${img})`}} title={name}></div>  
+			<div className={`media-card ${(isSelected && isSelectCanvasItem)? "selected":""}`} onClick={()=>changeItemSelectHandler()} style={{backgroundImage: `url(${img})`}} title={name}></div>  
 		</div>);
 };
 
-const MediaPanel = ({loading, mediaItems, error})=> { 
+const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> { 
+  const dispatch = useDispatch();
+  const [selectLeftItem, setSelectLeftItem] = useState();
+  const isSelectCanvasItem = !AppHelpers.isEmptyObj(selectedItem);
+
+  const onSelectForChangeHandler = ({char_id, img}) => {
+      setSelectLeftItem(img)
+
+      mediaItems = mediaItems.map(item=>{
+        if(item.char_id === char_id) item.isSelected = true;
+        else item.isSelected = false;
+        return item
+      });
+    }
+
+  const onCancelSelectForChangeHandler = () => {
+      mediaItems = mediaItems.map(item=>{ item.isSelected = false; return item });
+  }
+
+  const onConfirmSelectForChangeHandler = () => {
+     const changeImg = selectLeftItem;
+     const { id } = selectedItem;
+     dispatch(updateCanvasItem(id, {img:changeImg}, canvasItems))
+  }
+
     return ( 
       <div className="media-panel">
         <div className="media-panel-header"> Media panel </div>
-        <div className="media-items">
+        <div className={`media-items ${isSelectCanvasItem?'change-mode':''}`}>
             {loading? <div className="loading-message">Loading..</div> : mediaItems?.map((mediaItem, index) => 
-              <div key={mediaItem.img} > <Item {...mediaItem} /> </div>
+              <div key={mediaItem.img} > <Item {...mediaItem} isSelectCanvasItem={isSelectCanvasItem} onSelect={(item)=>onSelectForChangeHandler(item)} /> </div>
             )}
+        </div>
+        <div className={`animate__animated animate__faster animate__slideInUp media-panel-footer ${(!!selectLeftItem && isSelectCanvasItem)? 'd-flex':'hide'}`} >
+            <button className="btn btn-default" onClick={()=>onCancelSelectForChangeHandler()} > Cancel</button>
+            <button className="btn btn-primary" onClick={()=>onConfirmSelectForChangeHandler()} > Confirm</button>
         </div>
       </div>
     );
@@ -42,8 +77,15 @@ const MediaPanel = ({loading, mediaItems, error})=> {
 const mapStateToProps = (state) =>({
   loading: state.mediaItemsReducer.loading,
   mediaItems: state.mediaItemsReducer.mediaItems,
-  error: state.mediaItemsReducer.error
+  error: state.mediaItemsReducer.error,
+  canvasItems: state.canvasItemsReducer.canvasItems
 });
 
-export default connect(mapStateToProps, mediaItemsList())(MediaPanel);
+const itemMapStateToProps = (state) =>({
+  selectedItem: state.canvasItemsReducer.selectedCanvasItem
+});
+
+ let wrapMediaPanel = connect(itemMapStateToProps, {selectedCanvasItem, updateCanvasItem})(MediaPanel);
+ export default connect(mapStateToProps, mediaItemsList())(wrapMediaPanel);
+
   

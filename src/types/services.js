@@ -8,6 +8,7 @@ export const addCanvasItemType =  'add_canvas_item';
 export const updateCanvasItemType =  'update_canvas_item';
 export const removeCanvasItemType =  'remove_canvas_item';
 export const resetCanvasItemsType =  'reset_canvas_items';
+export const selectedCanvasItemType =  'selected_canvas_item';
 
 // Modal types
 export const openModalType =  'open_modal';

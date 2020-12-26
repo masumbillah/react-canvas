@@ -1,4 +1,10 @@
-import { addCanvasItemType, updateCanvasItemType, resetCanvasItemsType, removeCanvasItemType } from "../../types/services";
+import { 
+    addCanvasItemType,
+     updateCanvasItemType, 
+     resetCanvasItemsType, 
+     removeCanvasItemType,  
+     selectedCanvasItemType
+    } from "../../types/services";
 
 export const addCanvasItem = (item, canvasItems) => {
     return {
@@ -27,5 +33,12 @@ export const removeCanvasItem = (item) => {
 export const resetCanvasItems = () => {
     return {
         type: resetCanvasItemsType
+    }
+};
+
+export const selectedCanvasItem = (item) => {
+    return {
+        payload:item,
+        type: selectedCanvasItemType
     }
 };

@@ -1,12 +1,19 @@
-import { addCanvasItemType, updateCanvasItemType, resetCanvasItemsType, removeCanvasItemType } from "../../types/services";
+import {
+    addCanvasItemType, 
+    updateCanvasItemType, 
+    resetCanvasItemsType, 
+    removeCanvasItemType,
+    selectedCanvasItemType 
+} from "../../types/services";
+
 import AppHelpers from "../../tools/App-helpers";
 
 const initialState = {
-    canvasItems: JSON.parse(localStorage.getItem("canvasItems")) || []
+    canvasItems: AppHelpers.getCollectionData() || [],
+    selectedCanvasItem: {}
 };
 
 export default function (state = initialState, action) {
-    console.log(".....action", action);
     switch(action.type) {
         case addCanvasItemType:
             return {
@@ -27,6 +34,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 canvasItems: resetCanvasItems()
+            }
+        case selectedCanvasItemType:
+            return {
+                ...state,
+                selectedCanvasItem: action.payload
             }
         default:
             return state    
@@ -57,10 +69,12 @@ const addItem = (existItems, newItem) => {
    return updateLocalStorage(result);
 }
 
-const updateItem = ( id, filters, allCanvasItems) => {
+const updateItem = ( id, {filters, img}, allCanvasItems) => {
+
  let result = allCanvasItems.map(item=> {
         if(!!item && item.id === id) {
-            item.filters = filters;
+           if(filters) item.filters = filters;
+           if(img) item.img = img
         }
         return item;
     });
