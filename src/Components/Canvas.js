@@ -42,7 +42,7 @@ const CanvasItem = ({ id, name, img, filters, index, moveCard }) => {
       },
   });
 
-  const [{ }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
       item: { type: CanvasItemTypes.CARD, id, index },
       collect: (monitor) => ({
           isDragging: monitor.isDragging(),
