@@ -9,7 +9,7 @@ import AppHelpers from '../tools/App-helpers';
 
 const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) => {
     const dispatch = useDispatch();
-    const [{ }, drag] = useDrag({
+    const [{ isDragging }, drag] = useDrag({
         item: { char_id, name, img, type: MediaItemTypes.BOX },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
