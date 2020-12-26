@@ -1,6 +1,26 @@
+.flex-container > .media-panel {
+    margin: 0;
+    flex-basis: 300px;
+    min-width: 250px;
+    height: calc(100vh);
+    background-color: #fff;
+    position: relative;
+}
+
 .media-panel .media-panel-header {
     padding: 20px;
     text-align: center;
+}
+
+.media-panel .media-panel-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 20px 0 15px;
+    box-shadow: -3px 0px 5px 0px #000;
 }
 
 .media-panel .media-items {
@@ -17,6 +37,22 @@
     background: top;
     background-size: cover;
     background-repeat: no-repeat;
+    position: relative;
+}
+
+.media-panel .media-items.change-mode .media-card {
+    cursor: pointer;
+}
+
+.media-card.selected::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #18a0fb85;
+    transition: 1s;
 }
 
 .media-panel .media-items .media-card:hover {

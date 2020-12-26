@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React from 'react';
 
 const ItemPreview = ({img, isFilter, filters}) => {
 

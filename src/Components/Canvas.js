@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import update from 'immutability-helper';
 import { connect, useDispatch } from "react-redux";
 
-import { addCanvasItem, removeCanvasItem, resetCanvasItems, updateCanvasItem } from '../services/actions/canvasItemsAction';
+import { addCanvasItem, removeCanvasItem, resetCanvasItems } from '../services/actions/canvasItemsAction';
 import { openModal } from '../services/actions/modalAction';
 
 import { MediaItemTypes, CanvasItemTypes } from '../types';
@@ -16,7 +16,6 @@ import AppHelpers from "../tools/App-helpers";
 const CanvasItem = ({ id, name, img, filters, index, moveCard }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [, drop] = useDrop({
       accept: CanvasItemTypes.CARD,
       hover(item, monitor) {
@@ -43,7 +42,7 @@ const CanvasItem = ({ id, name, img, filters, index, moveCard }) => {
       },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ }, drag] = useDrag({
       item: { type: CanvasItemTypes.CARD, id, index },
       collect: (monitor) => ({
           isDragging: monitor.isDragging(),
@@ -89,6 +88,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     const textAreaRefForCopy = useRef(null);
     const [canvasItems, setCanvasItems] = useState([])
     const [copyContent, setCopyContent] = useState(null)
+    const [isCopied, setIsCopied] = useState(false)
 
     useEffect(()=>{
       setCanvasItems(demoCanvasItems)
@@ -113,8 +113,13 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     const contentCopyHandler = () => {
         let canvasEl = document.getElementById('js-canvas-content');
         setCopyContent(`${AppHelpers.getCopyStyles()} <div class="canvas"> <div class="canvas-page-box"> ${canvasEl.outerHTML}</div></div>`);
-        textAreaRefForCopy.current.select();
-        document.execCommand('copy');
+        setIsCopied(true);
+
+        setTimeout(() => {
+          textAreaRefForCopy.current.select();
+          document.execCommand('copy');
+          setIsCopied(false);
+        }, 1000);
     };
 
     const resetCanvasHandler = () => {
@@ -132,13 +137,13 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
         <div className="canvas-header" style={{opacity: canvasItems.length>0?1:0}}>
               <div className="canvas-title">Canvas title...</div>
                <textarea className="copy-content-field" ref={textAreaRefForCopy} value={copyContent} readOnly />
-              <button className="btn btn-default" onClick={()=> contentCopyHandler()}>Copy</button>
-              <button disabled={true} className="disable btn btn-primary" onClick={()=> console.log("save event")}>Save</button>
+              <button className={`btn btn-default ${isCopied? 'primary-color':''}`} onClick={()=> contentCopyHandler()}>{isCopied?'Copied!':'Copy'}</button>
+              <button disabled={true} className="disabled btn btn-primary" onClick={()=> console.log("save event")}>Save</button>
               <button className="btn btn-danger" onClick={()=>resetCanvasHandler()}>Reset</button>
         </div>
         <div ref={drop} className={`canvas-page-box ${!isActive? 'empty':''}`}>
           {
-            !isActive? <div className="empty-box"> <img src={'/icons/placeholder-icon.png'} /> <p>Drop an image from media panel!</p> </div>:<div id="js-canvas-content" className="canvas-area">
+            !isActive? <div className="empty-box"> <img src={'/icons/placeholder-icon.png'} alt="" /> <p>Drop an image from media panel!</p> </div>:<div id="js-canvas-content" className="canvas-area">
             {canvasItems?.map((canvasItem, index) =><React.Fragment key={index} > <CanvasItem {...canvasItem} index={index} moveCard={moveCard} /> </React.Fragment>)}</div>
           }
         </div>

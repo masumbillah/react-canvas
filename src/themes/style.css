@@ -39,9 +39,17 @@ body{
   display: none;
 }
 
+.d-flex {
+  display: flex;
+}
+
 .flex-container {
      display: flex;
      flex-wrap: nowrap;
+ }
+
+ .primary-color {
+   color: #18a0fb !important;
  }
 /*End common styles*/
 
@@ -69,7 +77,7 @@ body{
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.btn.disable {
+.btn.disabled {
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -78,8 +86,8 @@ body{
     margin-right: 0;
 }
 
-.btn:hover,
-.btn:active {
+.btn:hover:not(.disabled),
+.btn:active:not(.disabled) {
     opacity: 0.9;
 }
 
@@ -111,7 +119,7 @@ body{
 }
 
 .copy-content-field {
-    eight: 2px;
+    height: 2px;
     width: 2px;
     margin-right: 126px;
     opacity: 0;
