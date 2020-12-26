@@ -1,0 +1,79 @@
+.canvas .canvas-header {
+    padding: 0 0px 10px;
+    line-height: 1;
+    text-align: right;
+}
+
+.canvas .canvas-page-box {
+    background: #fff;
+    height: calc(100vh - 115px);
+    padding: 20px;
+}
+
+.canvas .canvas-area {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.canvas .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.canvas .empty .empty-box{
+    border: dotted 2px #ccc;
+    padding: 30px 60px;
+    line-height: 2;
+    border-radius: 5px;
+    color: #696969;
+    margin: 0 auto;
+}
+
+.canvas .media-item {
+    border-radius: 3px;
+    cursor: move;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 170px;
+    width: 220px;
+}
+
+.canvas .media-item-box {
+    position: relative;
+    margin: 10px;
+}
+
+.canvas .media-item-box:hover {
+    opacity: 0.95;
+}
+
+.item-settings {
+    display: none;
+}
+
+.canvas .media-item-box:hover .item-settings{
+    display: block;
+    position: absolute;
+    background: #616161;
+    color: #dcdcdc;
+    padding: 5px 10px;
+    height: 10px;
+    line-height: 1;
+    left: 10px;
+    top: 10px;
+    border-radius: 30px;
+    display: table;
+}
+
+.canvas .media-item-box:hover .item-settings span:first-child{
+    border-right: 1px solid;
+    margin-right: 5px;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+.canvas .media-item-box .item-settings span:hover{
+    cursor: pointer;
+    color: #cac9c9;
+}

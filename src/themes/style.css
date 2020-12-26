@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'fontello';
+    src: url('../icons/font/fontello.eot?28655053');
+    src: url('../icons/font/fontello.eot?28655053#iefix') format('embedded-opentype'),
+         url('../icons/font/fontello.woff?28655053') format('woff'),
+         url('../icons/font/fontello.ttf?28655053') format('truetype'),
+         url('../icons/font/fontello.svg?28655053#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+   
+  .icon {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    text-align: center;
+  }
+
+body{
+    background-color: #f1f1f1;;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+.flex-container > .media-panel {
+    margin: 0;
+    flex-basis: 300px;
+    min-width: 200px;
+    height: calc(100vh);
+    background-color: #fff;
+}
+
+.flex-container > .canvas {
+    margin: 10px;
+    flex-basis: 75%;
+    text-align: center;
+    line-height: 75px;
+}
+
+/* Start popover styles */
+.settings-header {
+  display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e2e2e2;
+    flex-basis: 50%;
+    text-align: center;
+}
+
+.settings-header .menu:not(.active) {
+  color: #7b7a7a;
+}
+
+.settings-header .menu:hover {
+  color: #000000;
+}
+
+.settings-header .menu {
+    width: 50%;
+    padding: 10px 0 20px;
+    cursor: pointer;
+}
+
+.settings-bar,
+settings-live-view {
+  margin-top: 15px;
+}
+
+.item-preview {
+    width: 100%;
+    height: 150px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    width: 170px;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+.change-hints {
+  color: #696868;
+  text-align: left;
+}
+
+.settings-footer {
+    margin-top: 30px;
+    border-top: 1px solid #e2e2e2;
+    margin-top: 30px;
+}
+
+.settings-footer {
+  text-align: center;
+  padding: 20px 0 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-body.filter {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.settings-body label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  color: #636363;
+}
+
+.settings-body label:last-child {
+  margin-bottom: 0;
+}
+
+.settings-body label .icon {
+  margin-right: 10px;
+}
+
+.settings-body input {
+  margin-right: 10px;
+  cursor:pointer;
+  width: 160px;
+  outline: none;
+}
+
+.settings-body .filter-name {
+  width: 26px;
+  text-align: left;
+}
+
+.settings-body .filter-range {
+  width: 60px;
+  text-align: right;
+}
+
+.canvas:not(.open-modal) .modal{
+  display: none;
+}
+
+.canvas.open-modal {
+  position: relative;
+}
+
+.open-modal .modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #000000ab;
+   z-index: 1;
+}
+
+.open-modal .modal .modal-body {
+    width: 80%;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 20px 20px 30px;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+.btn {
+  cursor: pointer;
+  margin-right: 15px;
+  padding: 8px 15px;
+  outline: none;
+  border-radius: 3px;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+.btn:hover, 
+.btn:active {
+  opacity: 0.9;
+}
+
+.btn-default {
+    color: #4c4b4b;
+    background-color: #d4cfcf;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #0677ad;
+}
+
+
+/* Media quary */
+@media screen and (max-width: 850px) {
+  .settings-body.filter {
+      flex-direction: column;
+      align-items: center;
+  }
+}

@@ -1,0 +1,36 @@
+.media-panel .media-panel-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.media-panel .media-items {
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 0 10px;
+}
+
+.media-panel .media-items .media-card {
+    height: 170px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    cursor: move;
+    background: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.media-panel .media-items .media-card:hover {
+    opacity: 0.95;
+}
+
+.media-panel .media-items img {
+    width: 200px;
+}
+
+
+.media-panel .loading-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

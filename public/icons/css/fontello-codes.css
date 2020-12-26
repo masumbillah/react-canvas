@@ -1,0 +1,8 @@
+
+.icon-settings:before { content: '\e800'; } /* '' */
+.icon-trash:before { content: '\e802'; } /* '' */
+.icon-adjust:before { content: '\e803'; } /* '' */
+.icon-sun:before { content: '\e804'; } /* '' */
+.icon-contrast-drop-fill:before { content: '\e805'; } /* '' */
+.icon-contrast-drop-line:before { content: '\e806'; } /* '' */
+.icon-spin:before { content: '\e834'; } /* '' */
