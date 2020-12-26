@@ -1,7 +1,28 @@
+.flex-container > .media-panel {
+    margin: 0;
+    flex-basis: 300px;
+    min-width: 200px;
+    height: calc(100vh);
+    background-color: #fff;
+}
+
+.flex-container > .canvas {
+    margin: 10px;
+    flex: 1 1 auto;
+    text-align: center;
+    line-height: 75px;
+}
+
+
 .canvas .canvas-header {
-    padding: 0 0px 10px;
+    padding: 0 0 10px;
     line-height: 1;
     text-align: right;
+}
+
+.canvas-title {
+    float: left;
+    margin: 10px 0 0 10px;
 }
 
 .canvas .canvas-page-box {
@@ -22,7 +43,7 @@
 }
 
 .canvas .empty .empty-box{
-    border: dotted 2px #ccc;
+    border: dotted 2px #e2e2e2;
     padding: 30px 60px;
     line-height: 2;
     border-radius: 5px;
@@ -35,8 +56,8 @@
     cursor: move;
     background-size: cover;
     background-repeat: no-repeat;
-    height: 170px;
-    width: 220px;
+    height: 200px;
+    width: 250px;
 }
 
 .canvas .media-item-box {
@@ -46,34 +67,4 @@
 
 .canvas .media-item-box:hover {
     opacity: 0.95;
-}
-
-.item-settings {
-    display: none;
-}
-
-.canvas .media-item-box:hover .item-settings{
-    display: block;
-    position: absolute;
-    background: #616161;
-    color: #dcdcdc;
-    padding: 5px 10px;
-    height: 10px;
-    line-height: 1;
-    left: 10px;
-    top: 10px;
-    border-radius: 30px;
-    display: table;
-}
-
-.canvas .media-item-box:hover .item-settings span:first-child{
-    border-right: 1px solid;
-    margin-right: 5px;
-    padding-right: 5px;
-    display: inline-block;
-}
-
-.canvas .media-item-box .item-settings span:hover{
-    cursor: pointer;
-    color: #cac9c9;
 }

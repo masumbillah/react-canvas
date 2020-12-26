@@ -3,12 +3,13 @@ import { useDrag, useDrop } from 'react-dnd';
 import update from 'immutability-helper';
 import { connect, useDispatch } from "react-redux";
 
-import { addCanvasItem, removeCanvasItem, updateCanvasItem } from '../services/actions/canvasItemsAction';
+import { addCanvasItem, removeCanvasItem, resetCanvasItems, updateCanvasItem } from '../services/actions/canvasItemsAction';
 import { openModal } from '../services/actions/modalAction';
 
 import { MediaItemTypes, CanvasItemTypes } from '../types';
 import Modal from '../tools/Modal';
 import Settings from '../Components/Settings'
+import AppHelpers from "../tools/App-helpers";
 
 
 //Start canvas Item component
@@ -85,7 +86,9 @@ const itemDeleteHandler =() => {
 ///Start canvas component 
 const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     const dispatch = useDispatch()
+    const textAreaRefForCopy = useRef(null);
     const [canvasItems, setCanvasItems] = useState([])
+    const [copyContent, setCopyContent] = useState(null)
 
     useEffect(()=>{
       setCanvasItems(demoCanvasItems)
@@ -104,19 +107,38 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     const moveCard = useCallback((dragIndex, hoverIndex) => {
       const dragCard = canvasItems[dragIndex];
       setCanvasItems(update(canvasItems, { $splice: [ [dragIndex, 1], [hoverIndex, 0, dragCard], ]}));
-  }, [canvasItems]);
+      AppHelpers.setCollectionData(canvasItems);
+    }, [canvasItems]);
+
+    const contentCopyHandler = () => {
+        let canvasEl = document.getElementById('js-canvas-content');
+        setCopyContent(`${AppHelpers.getCopyStyles()} <div class="canvas"> <div class="canvas-page-box"> ${canvasEl.outerHTML}</div></div>`);
+        textAreaRefForCopy.current.select();
+        document.execCommand('copy');
+    };
+
+    const resetCanvasHandler = () => {
+       if(canvasItems.length>0 && window.confirm("Are you sure? It will be delete forever!")) {
+           AppHelpers.setCollectionData([]);
+           setCanvasItems([]);
+           dispatch(resetCanvasItems());
+       }
+    };
 
     return (
       <div className={`canvas ${isOpenMdal?'open-modal':''}`}>
         <Modal content={modalComponent} />
 
         <div className="canvas-header" style={{opacity: canvasItems.length>0?1:0}}>
-              <button className="btn btn-default" onClick={()=> console.log("copay code")}>Copy</button>
-              <button className="btn btn-primary" onClick={()=>console.log("reset code")}>Reset</button>
+              <div className="canvas-title">Canvas title...</div>
+               <textarea className="copy-content-field" ref={textAreaRefForCopy} value={copyContent} readOnly />
+              <button className="btn btn-default" onClick={()=> contentCopyHandler()}>Copy</button>
+              <button disabled={true} className="disable btn btn-primary" onClick={()=> console.log("save event")}>Save</button>
+              <button className="btn btn-danger" onClick={()=>resetCanvasHandler()}>Reset</button>
         </div>
         <div ref={drop} className={`canvas-page-box ${!isActive? 'empty':''}`}>
           {
-            !isActive? <div className="empty-box"> <img src={'/icons/placeholder-icon.png'} /> <p>Drop an image from media panel!</p> </div>:<div className="canvas-area">
+            !isActive? <div className="empty-box"> <img src={'/icons/placeholder-icon.png'} /> <p>Drop an image from media panel!</p> </div>:<div id="js-canvas-content" className="canvas-area">
             {canvasItems?.map((canvasItem, index) =><React.Fragment key={index} > <CanvasItem {...canvasItem} index={index} moveCard={moveCard} /> </React.Fragment>)}</div>
           }
         </div>
@@ -126,7 +148,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
 
 const mapStateToProps = (state) =>{
   return({
-    demoCanvasItems: JSON.parse(localStorage.getItem("canvasItems")),
+    demoCanvasItems: AppHelpers.getCollectionData(),
     isOpenMdal: state.modalReducer.isOpenModal,
     modalComponent: state.modalReducer.component
   })
@@ -139,4 +161,4 @@ const itemMapStateToProps = (state) =>{
 };
 
 connect(itemMapStateToProps, {openModal})(CanvasItem);
-export default connect(mapStateToProps, {addCanvasItem, removeCanvasItem, openModal})(Canvas);
+export default connect(mapStateToProps, {addCanvasItem, resetCanvasItems, removeCanvasItem, openModal})(Canvas);

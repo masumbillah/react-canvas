@@ -1,4 +1,4 @@
-import { addCanvasItemType, updateCanvasItemType, removeCanvasItemType } from "../../types/services";
+import { addCanvasItemType, updateCanvasItemType, resetCanvasItemsType, removeCanvasItemType } from "../../types/services";
 
 export const addCanvasItem = (item, canvasItems) => {
     return {
@@ -21,5 +21,11 @@ export const removeCanvasItem = (item) => {
     return {
         payload: item,
         type: removeCanvasItemType
+    }
+};
+
+export const resetCanvasItems = () => {
+    return {
+        type: resetCanvasItemsType
     }
 };

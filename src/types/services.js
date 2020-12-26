@@ -7,6 +7,7 @@ export const getMediaItemsFailed =  'get_media_items_failed';
 export const addCanvasItemType =  'add_canvas_item';
 export const updateCanvasItemType =  'update_canvas_item';
 export const removeCanvasItemType =  'remove_canvas_item';
-  
+export const resetCanvasItemsType =  'reset_canvas_items';
+
 // Modal types
 export const openModalType =  'open_modal';
