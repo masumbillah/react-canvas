@@ -1,8 +1,12 @@
-# Getting Started with Create React App
+# React Image canvas app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app will be use image midify, create email template for images. It's developing only React js(latest version), Redux, Redux thunk and React dnd.
 
-## Available Scripts
+## Get start for now
+
+At first pull the repo and install modules.
+
+### `npm install` or `npm i`
 
 In the project directory, you can run:
 
@@ -13,6 +17,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### Live demo
+[https://react-img-canvas.netlify.app](https://react-img-canvas.netlify.app/)
 
 ### `npm test`
 
