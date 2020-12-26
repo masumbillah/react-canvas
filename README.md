@@ -1,8 +1,11 @@
-# Getting Started with Create React App
+# React Photo Canvas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project build by only react js(latest version), Redux, Redux thunk and React dnd from scratch. 
 
-## Available Scripts
+## Now get start 
+
+At first pull the repo and install modules. 
+### `npm i`
 
 In the project directory, you can run:
 
