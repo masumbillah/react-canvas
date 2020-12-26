@@ -13,7 +13,7 @@ const ItemFilter = ({img, isFilter, filters, optionsChange}) => {
     }, [brightness, hueRotate, saturate, contrast]);
 
     return ( 
-        <div className={`${isFilter?'show':'hide'}`}>
+        <div className={` animate__animated animate__faster animate__fadeIn ${isFilter?'show':'hide'}`}>
         <div className="settings-body filter">
            
             <div className="settings-live-view">

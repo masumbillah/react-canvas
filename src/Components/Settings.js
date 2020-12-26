@@ -33,7 +33,7 @@ const Settings = ({id, img, name, filters, canvasItems}) => {
        
             <div className="settings-footer">
                 <button className="btn btn-default" onClick={()=> dispatch(openModal())}>Close</button>
-                { isFilter? <button className="btn btn-primary" onClick={()=>resetFilterHandler()}>Reset</button>:null }
+                { isFilter? <button className="btn btn-danger" onClick={()=>resetFilterHandler()}>Reset</button>:null }
            </div>
        </div>
     )
