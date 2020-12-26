@@ -26,8 +26,6 @@ const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) 
      if(isSelectCanvasItem) !!onSelect && onSelect({char_id, img, name});
     }
 
-    console.log("isSelectCanvasItem", isSelectCanvasItem)
-
     return (<div ref={drag}>
 			<div className={`media-card ${(isSelected && isSelectCanvasItem)? "selected":""}`} onClick={()=>changeItemSelectHandler()} style={{backgroundImage: `url(${img})`}} title={name}></div>  
 		</div>);
