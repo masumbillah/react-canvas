@@ -1,5 +1,7 @@
+//Redux types
 import { mediaItemsRequest, getMediaItemsSuccess, getMediaItemsFailed } from "../../types/services";
 
+//Start actions methods for fetching data by API
 export const mediaItemsList = () => {
     return (dispatch) => {
         dispatch({

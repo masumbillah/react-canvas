@@ -1,3 +1,4 @@
+//Redux types
 import {
     addCanvasItemType, 
     updateCanvasItemType, 
@@ -6,8 +7,10 @@ import {
     selectedCanvasItemType 
 } from "../../types/services";
 
+//App helpers
 import AppHelpers from "../../tools/App-helpers";
 
+//Initial state
 const initialState = {
     canvasItems: AppHelpers.getCollectionData() || [],
     selectedCanvasItem: {}

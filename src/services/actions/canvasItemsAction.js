@@ -1,4 +1,5 @@
-import { 
+//Redux types
+import {
     addCanvasItemType,
      updateCanvasItemType, 
      resetCanvasItemsType, 
@@ -6,6 +7,7 @@ import {
      selectedCanvasItemType
     } from "../../types/services";
 
+// Start action methods
 export const addCanvasItem = (item, canvasItems) => {
     return {
         payload: item,

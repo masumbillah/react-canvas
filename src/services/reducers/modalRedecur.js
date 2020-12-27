@@ -1,5 +1,7 @@
+//Redux types
 import { openModalType } from "../../types/services";
 
+//Redux initial state
 const initialState = {
     isOpenModal: false,
     mediaItem: {}

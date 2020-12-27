@@ -1,8 +1,10 @@
+//Package
 import React, { useEffect, useState } from 'react';
 
+//Start component
 const ItemFilter = ({img, isFilter, filters, optionsChange}) => {
      
-    const [hueRotate, setHueRotate] = useState((!!filters && filters.hueRotate)? filters.hueRotate:"0");
+     const [hueRotate, setHueRotate] = useState((!!filters && filters.hueRotate)? filters.hueRotate:"0");
      const [saturate, setSaturate] = useState((!!filters && filters.saturate)? filters.saturate:"100");
      const [brightness, setBrightness] = useState((!!filters && filters.brightness)? filters.brightness:"100");
      const [contrast, setContrast] = useState((!!filters && filters.contrast)? filters.contrast:"100"); 
@@ -57,5 +59,5 @@ const ItemFilter = ({img, isFilter, filters, optionsChange}) => {
         </div>
     )   
 };
- 
-  export default ItemFilter;
+
+export default ItemFilter;
