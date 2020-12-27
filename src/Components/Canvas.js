@@ -1,70 +1,70 @@
+//Packages
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import update from 'immutability-helper';
 import { connect, useDispatch } from "react-redux";
 
+//Redux
 import { addCanvasItem, removeCanvasItem, resetCanvasItems } from '../services/actions/canvasItemsAction';
 import { openModal } from '../services/actions/modalAction';
-
 import { MediaItemTypes, CanvasItemTypes } from '../types';
+
+//Components
 import Modal from '../tools/Modal';
 import Settings from '../Components/Settings'
 import AppHelpers from "../tools/App-helpers";
-
 
 //Start canvas Item component
 const CanvasItem = ({ id, name, img, filters, index, moveCard }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [, drop] = useDrop({
-      accept: CanvasItemTypes.CARD,
-      hover(item, monitor) {
-          if (!ref.current) {
-              return;
-          }
-          const dragIndex = item.index;
-          const hoverIndex = index;
-          if (dragIndex === hoverIndex) {
-              return;
-          }
-          const hoverBoundingRect = ref.current?.getBoundingClientRect();
-          const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-          const clientOffset = monitor.getClientOffset();
-          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-              return;
-          }
-          if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-              return;
-          }
-          moveCard(dragIndex, hoverIndex);
-          item.index = hoverIndex;
-      },
-  });
+          accept: CanvasItemTypes.CARD,
+          hover(item, monitor) {
+              if (!ref.current) {
+                  return;
+              }
+              const dragIndex = item.index;
+              const hoverIndex = index;
+              if (dragIndex === hoverIndex) {
+                  return;
+              }
+              const hoverBoundingRect = ref.current?.getBoundingClientRect();
+              const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+              const clientOffset = monitor.getClientOffset();
+              const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+              if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+                  return;
+              }
+              if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+                  return;
+              }
+              moveCard(dragIndex, hoverIndex);
+              item.index = hoverIndex;
+          },
+      });
 
-  const [{ isDragging }, drag] = useDrag({
-      item: { type: CanvasItemTypes.CARD, id, index },
-      collect: (monitor) => ({
-          isDragging: monitor.isDragging(),
-      }),
-  });
+      const [{ isDragging }, drag] = useDrag({
+          item: { type: CanvasItemTypes.CARD, id, index },
+          collect: (monitor) => ({
+              isDragging: monitor.isDragging(),
+          }),
+      });
 
-  drag(drop(ref));
+      drag(drop(ref));
+      const {brightness, hueRotate, saturate, contrast } = filters;
+      let filterStyle= `brightness(${brightness}%) hue-rotate(${hueRotate}deg) saturate(${saturate}%) contrast(${contrast}%)`;
 
-  const {brightness, hueRotate, saturate, contrast } = filters;
-  let filterStyle= `brightness(${brightness}%) hue-rotate(${hueRotate}deg) saturate(${saturate}%) contrast(${contrast}%)`;
- 
-//Open setting options handler
-const settingsOptionsHandler =() => {
-  dispatch(openModal(true, { id, name, img, filters}, <Settings {...{id, img, name, filters}} />))
+    //Open setting options handler
+    const settingsOptionsHandler =() => {
+      dispatch(openModal(true, { id, name, img, filters}, <Settings {...{id, img, name, filters}} />))
+    };
 
-};
-
-//Item delete handler
-const itemDeleteHandler =() => {
-    let isSure = window.confirm("Are you sure?");
-    if(isSure) dispatch(removeCanvasItem(id));
-};
+    //Item delete handler
+    const itemDeleteHandler =() => {
+        let isSure = window.confirm("Are you sure?");
+        if(isSure) dispatch(removeCanvasItem(id));
+    };
 
   return (
     <div className="media-item-box" ref={ref} >
@@ -80,7 +80,7 @@ const itemDeleteHandler =() => {
     </div>
    );
 };
-
+//End canvas item component
 
 ///Start canvas component 
 const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
@@ -94,6 +94,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
       setCanvasItems(demoCanvasItems)
     }, [demoCanvasItems])
 
+    //React dnd methods
     const [{ canDrop, isOver }, drop] = useDrop({
         accept: MediaItemTypes.BOX,
         drop: () => ({ name: 'Canvas' }),
@@ -110,6 +111,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
       AppHelpers.setCollectionData(canvasItems);
     }, [canvasItems]);
 
+    //Content copy handler
     const contentCopyHandler = () => {
         let canvasEl = document.getElementById('js-canvas-content');
         setCopyContent(`${AppHelpers.getCopyStyles()} <div class="canvas"> <div class="canvas-page-box"> ${canvasEl.outerHTML}</div></div>`);
@@ -122,6 +124,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
         }, 1000);
     };
 
+    //Reset canvas items handler
     const resetCanvasHandler = () => {
        if(canvasItems.length>0 && window.confirm("Are you sure? It will be delete forever!")) {
            AppHelpers.setCollectionData([]);
@@ -139,7 +142,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
                <textarea className="copy-content-field" ref={textAreaRefForCopy} value={copyContent} readOnly />
               <button className={`btn btn-default ${isCopied? 'primary-color':''}`} onClick={()=> contentCopyHandler()}>{isCopied?'Copied!':'Copy'}</button>
               <button disabled={true} className="disabled btn btn-primary" onClick={()=> console.log("save event")}>Save</button>
-              <button className="btn btn-danger" onClick={()=>resetCanvasHandler()}>Reset</button>
+              <button className="btn btn-danger" onClick={()=>resetCanvasHandler()}>Reset & Create new</button>
         </div>
         <div ref={drop} className={`canvas-page-box ${!isActive? 'empty':''}`}>
           {
@@ -151,6 +154,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     );
 };
 
+//Redux dispatch for Media panel component
 const mapStateToProps = (state) =>{
   return({
     demoCanvasItems: AppHelpers.getCollectionData(),
@@ -159,6 +163,7 @@ const mapStateToProps = (state) =>{
   })
 };
 
+//Redux dispatch for Canvas item component
 const itemMapStateToProps = (state) =>{
   return({
     isOpenModal: state.modalReducer.isOpenModal,

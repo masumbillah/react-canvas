@@ -1,5 +1,7 @@
+//Package
 import React from 'react';
 
+//Start component
 const ItemPreview = ({img, isFilter, filters}) => {
 
     const {brightness, hueRotate, saturate, contrast } = filters;

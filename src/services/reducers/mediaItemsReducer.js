@@ -1,5 +1,7 @@
+// Redux types
 import { mediaItemsRequest, getMediaItemsSuccess, getMediaItemsFailed } from "../../types/services";
 
+// Redux initial state
 const initialState = {
     loading: false,
     mediaItems: [],

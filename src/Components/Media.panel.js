@@ -1,12 +1,17 @@
+// Packages
 import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { connect, useDispatch } from "react-redux";
 
+//Redux methods
 import { MediaItemTypes } from '../types';
 import { mediaItemsList } from "../services/actions/mediaItemsAction";
 import { addCanvasItem, selectedCanvasItem, updateCanvasItem } from "../services/actions/canvasItemsAction";
+
+//App helpers
 import AppHelpers from '../tools/App-helpers';
 
+// Start left media panel item component
 const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) => {
     const dispatch = useDispatch();
     const [{ isDragging }, drag] = useDrag({
@@ -26,30 +31,32 @@ const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) 
      if(isSelectCanvasItem) !!onSelect && onSelect({char_id, img, name});
     }
 
-    return (<div ref={drag}>
-			<div className={`media-card ${(isSelected && isSelectCanvasItem)? "selected":""}`} onClick={()=>changeItemSelectHandler()} style={{backgroundImage: `url(${img})`}} title={name}></div>  
-		</div>);
+    return ( <div ref={drag}>
+        <div className={`media-card ${(isSelected && isSelectCanvasItem)? "selected":""}`} onClick={()=>changeItemSelectHandler()} style={{backgroundImage: `url(${img})`}} title={name}></div>
+    </div>)
 };
+// End left media panel item component
 
+// Start media panel item container component
 const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> { 
   const dispatch = useDispatch();
   const [selectLeftItem, setSelectLeftItem] = useState();
   const isSelectCanvasItem = !AppHelpers.isEmptyObj(selectedItem);
-
   const onSelectForChangeHandler = ({char_id, img}) => {
-      setSelectLeftItem(img)
-
+      setSelectLeftItem(img);
       mediaItems = mediaItems.map(item=>{
         if(item.char_id === char_id) item.isSelected = true;
         else item.isSelected = false;
         return item
       });
-    }
+    };
 
+  //Images change handler
   const onCancelSelectForChangeHandler = () => {
       mediaItems = mediaItems.map(item=>{ item.isSelected = false; return item });
-  }
+  };
 
+  //Images change handler
   const onConfirmSelectForChangeHandler = () => {
      const changeImg = selectLeftItem;
      const { id } = selectedItem;
@@ -70,8 +77,9 @@ const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> {
         </div>
       </div>
     );
-  }
+  };
 
+//Start redux dispatch for media panel
 const mapStateToProps = (state) =>({
   loading: state.mediaItemsReducer.loading,
   mediaItems: state.mediaItemsReducer.mediaItems,

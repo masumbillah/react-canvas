@@ -1,11 +1,16 @@
+//Packages
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from "react-redux";
+
+//Redux
 import { updateCanvasItem, selectedCanvasItem } from '../services/actions/canvasItemsAction';
 import { openModal } from '../services/actions/modalAction';
 
+//Components
 import ItemFilter from './Item-filters';
 import ItemPreview from './Item-preview';
 
+//Start settings component
 const Settings = ({id, img, name, filters, canvasItems}) => {
     const dispatch = useDispatch();
     const [isFilter, setIsFilter] = useState(false);
@@ -24,20 +29,23 @@ const Settings = ({id, img, name, filters, canvasItems}) => {
 
     }, [isFilter]);
 
+    //Reset filter handler
     const resetFilterHandler = () => {
         setPreviewImgStyle(defaultFilter);
         dispatch(updateCanvasItem(id, {filters:defaultFilter}, canvasItems));
         dispatch(openModal())
     }
 
+    //Modal close handler
     const modalCloseHandler = () => {
         dispatch(selectedCanvasItem({}));
         dispatch(openModal())
     }
 
+    //Fetching current item
     const currentItem = () => {
       return canvasItems.find(item=> item.id === id);
-    }
+    };
 
     return ( 
        <div className="settings-container">
@@ -56,6 +64,7 @@ const Settings = ({id, img, name, filters, canvasItems}) => {
     )
 };
 
+//Start redux dispatch for settings
 const mapStateToProps = (state) =>{
     return({
       canvasItems: state.canvasItemsReducer.canvasItems
