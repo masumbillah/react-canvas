@@ -87,7 +87,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     const dispatch = useDispatch()
     const textAreaRefForCopy = useRef(null);
     const [canvasItems, setCanvasItems] = useState([])
-    const [copyContent, setCopyContent] = useState(null)
+    const [copyContent, setCopyContent] = useState("")
     const [isCopied, setIsCopied] = useState(false)
 
     useEffect(()=>{
@@ -129,7 +129,7 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
        if(canvasItems.length>0 && window.confirm("Are you sure? It will be delete forever!")) {
            AppHelpers.setCollectionData([]);
            setCanvasItems([]);
-           dispatch(resetCanvasItems());
+           dispatch(resetCanvasItems()); 
        }
     };
 
@@ -139,8 +139,8 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
 
         <div className="canvas-header" style={{opacity: canvasItems.length>0?1:0}}>
               <div className="canvas-title">Canvas title...</div>
-               <textarea className="copy-content-field" ref={textAreaRefForCopy} value={copyContent} readOnly />
-              <button className={`btn btn-default ${isCopied? 'primary-color':''}`} onClick={()=> contentCopyHandler()}>{isCopied?'Copied!':'Copy'}</button>
+              <textarea className="copy-content-field" ref={textAreaRefForCopy} value={copyContent} readOnly />
+              <button data-testid="js-copy-button" className={`btn btn-default ${isCopied? 'primary-color':''}`} onClick={()=> contentCopyHandler()}>{isCopied?'Copied!':'Copy'}</button>
               <button disabled={true} className="disabled btn btn-primary" onClick={()=> console.log("save event")}>Save</button>
               <button className="btn btn-danger" onClick={()=>resetCanvasHandler()}>Reset & Create new</button>
         </div>

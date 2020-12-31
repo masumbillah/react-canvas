@@ -5,7 +5,7 @@ import { mediaItemsRequest, getMediaItemsSuccess, getMediaItemsFailed } from "..
 export const mediaItemsList = () => {
     return (dispatch) => {
         dispatch({
-            type: mediaItemsRequest
+            type: mediaItemsRequest,
         })
 
         fetch('https://www.breakingbadapi.com/api/characters?limit=20').then(response => response.json())
