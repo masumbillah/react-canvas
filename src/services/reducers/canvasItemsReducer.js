@@ -59,8 +59,7 @@ const resetCanvasItems = () => {
 };
 
 const addItem = (existItems, newItem) => {
-    let itemSize = existItems.length,
-        id = AppHelpers.randomId();
+    let id = AppHelpers.randomId();
         
     let result = [...existItems, {...newItem, id, filters: {
         brightness: "100",
