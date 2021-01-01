@@ -41,9 +41,11 @@ const Item = ({ char_id, img, name, onSelect, isSelected, isSelectCanvasItem }) 
 const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> { 
   const dispatch = useDispatch();
   const [selectLeftItem, setSelectLeftItem] = useState();
+  const [isCancel, setIsCancel] = useState(false);
   const isSelectCanvasItem = !AppHelpers.isEmptyObj(selectedItem);
   const onSelectForChangeHandler = ({char_id, img}) => {
       setSelectLeftItem(img);
+      setIsCancel(false)
       mediaItems = mediaItems.map(item=>{
         if(item.char_id === char_id) item.isSelected = true;
         else item.isSelected = false;
@@ -59,6 +61,7 @@ const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> {
   //Images change handler
   const onCancelSelectForChangeHandler = () => {
       mediaItems = mediaItems.map(item=>{ item.isSelected = false; return item });
+      setIsCancel(true)
   };
 
   //Images change handler
@@ -76,7 +79,7 @@ const MediaPanel = ({loading, mediaItems, error, selectedItem, canvasItems})=> {
               <div key={mediaItem.img} > <Item {...mediaItem} isSelectCanvasItem={isSelectCanvasItem} onSelect={(item)=>onSelectForChangeHandler(item)} /> </div>
             )}
         </div>
-        <div className={`animate__animated animate__faster animate__slideInUp media-panel-footer ${(!!selectLeftItem && isSelectCanvasItem)? 'd-flex':'hide'}`} >
+        <div className={`animate__animated animate__faster animate__slideInUp media-panel-footer ${(!!selectLeftItem && isSelectCanvasItem && !isCancel)? 'd-flex':'hide'}`} >
             <button className="btn btn-default" onClick={()=>onCancelSelectForChangeHandler()} > Cancel</button>
             <button className="btn btn-primary" onClick={()=>onConfirmSelectForChangeHandler()} > Confirm</button>
         </div>
