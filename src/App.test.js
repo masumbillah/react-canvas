@@ -6,17 +6,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 //Redux store
 import  store from '../src/services/store'
+
+//Components
 import App from './App';
+import Canvas from './Components/Canvas';
 
 afterEach(cleanup);
 
-const mediaPanelInitialState = {
-  loading: false,
-  mediaItems: [],
-  error: ''
-};
-
-const renderWithRedux = (component, {mediaPanelInitialState} = {}) =>{
+const renderWithRedux = (component) =>{
   return {
     ...render(<Provider store={store}> <DndProvider backend={HTML5Backend}>{component}</DndProvider></Provider>)
   }
@@ -25,39 +22,23 @@ const renderWithRedux = (component, {mediaPanelInitialState} = {}) =>{
 //Test method of app rendering with redux store
 test('app render with redux', () => {
   const { getByTestId, getByText } = renderWithRedux(<App />)
-  console.log("App render with redux");
+  console.log("01. App render with redux");
 });
 
 
 //Test method of template copy button for dynamic change content 
-test('modal open testing', () => {
+test('copy button content testing before click', () => {
   const { getByTestId, getByText} = renderWithRedux(<App />)
-  expect(getByTestId('js-copy-button')).toHaveTextContent('Copy'||'Copied!')
-  console.log("Button Content testing");
+  expect(getByTestId('js-copy-button')).toHaveTextContent('Copy')
+  console.log("02. Button Content testing before click");
 });
 
+//Test method of template copy button for dynamic change content 
+test('copy button content testing after click', () => {
+  const { getByTestId, getByText} = renderWithRedux(<Canvas />);
+  const btnEl = getByTestId('js-copy-button');
+  fireEvent.click(btnEl);
 
-//Test method of open modal 
-test('button content testing', () => {
-   const propsOfModal = {
-    "id": "iyo44nbt",
-    "name": "Walter White",
-    "img": "https://s-i.huffpost.com/gen/1317262/images/o-ANNA-GUNN-facebook.jpg",
-    "filters": {
-      "brightness": "100",
-      "hueRotate": "207",
-      "saturate": "100",
-      "contrast": "100"
-    }
-  };
-
-  const { getByTestId, getByText} = renderWithRedux(<App />)
-  console.log("Open modal testing");
-});
-
-
-//Test method of close modal 
-test('button close testing', () => {
-  const { getByTestId, getByText} = renderWithRedux(<App />)
-  console.log("Close modal testing");
+  expect(btnEl).toHaveTextContent('Copied!')
+  console.log("03. Button Content testing after click");
 });

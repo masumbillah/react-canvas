@@ -14,15 +14,10 @@ At first pull the repo and install modules.
 
 In the project directory, you can run:
 
-### `npm run start`
+### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-You can test the app:
-
-### `npm run test`
-
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.

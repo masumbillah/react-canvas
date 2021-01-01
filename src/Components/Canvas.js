@@ -114,7 +114,8 @@ const Canvas = ({demoCanvasItems, isOpenMdal, modalComponent}) => {
     //Content copy handler
     const contentCopyHandler = () => {
         let canvasEl = document.getElementById('js-canvas-content');
-        setCopyContent(`${AppHelpers.getCopyStyles()} <div class="canvas"> <div class="canvas-page-box"> ${canvasEl.outerHTML}</div></div>`);
+        let canvasElOuterHTML = canvasEl && canvasEl.outerHTML?canvasEl.outerHTML:'';
+        if(canvasElOuterHTML) setCopyContent(`${AppHelpers.getCopyStyles()} <div class="canvas"> <div class="canvas-page-box"> ${ canvasElOuterHTML}</div></div>`);
         setIsCopied(true);
 
         setTimeout(() => {
